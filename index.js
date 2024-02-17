@@ -106,7 +106,10 @@ app.get('/api/events/:id', async (req, res) => {
 
 app.post('/api/reservations', async (req, res) => {
   try {
-   
+    const sessionId = req.cookies['sessionId'];
+    if (!sessionId) {
+      return res.status(401).json({ message: "User is not authenticated" });
+    }
 
     const db = await connectDB();
     let allReservationsProcessed = true; 
@@ -140,6 +143,7 @@ app.post('/api/reservations', async (req, res) => {
     if (allReservationsProcessed) {
       const reservationResult = await db.collection('reservations').insertOne({
         ...req.body, 
+        sessionId: sessionId,
       });
 
       if (reservationResult.acknowledged) {
@@ -188,11 +192,13 @@ app.delete('/api/reservations/:ticketId', async (req, res) => {
 
 
 app.all('/api/reservations/last', async (req, res) => {
-  
-  // const sessionId = req.cookies['sessionId'];
-  // if (!sessionId) {
-  //   return res.status(401).send("User is not authenticated");
-  // }
+  const authHeader = req.headers['authorization'];
+  console.log(`Received Authorization Header: ${authHeader}`);
+
+  const sessionId = req.cookies['sessionId'];
+  if (!sessionId) {
+    return res.status(401).send("User is not authenticated");
+  }
 
   try {
     const db = await connectDB();
