@@ -192,9 +192,7 @@ app.delete('/api/reservations/:ticketId', async (req, res) => {
 
 
 app.all('/api/reservations/last', async (req, res) => {
-  const authHeader = req.headers['authorization'];
-  console.log(`Received Authorization Header: ${authHeader}`);
-
+  
   const sessionId = req.cookies['sessionId'];
   if (!sessionId) {
     return res.status(401).send("User is not authenticated");
