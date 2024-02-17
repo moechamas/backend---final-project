@@ -106,6 +106,7 @@ app.get('/api/events/:id', async (req, res) => {
 
 app.post('/api/reservations', async (req, res) => {
   try {
+    console.log(req.headers['Authorization'])
     const sessionId = req.headers['Authorization'].split(" ")[1];
     if (!sessionId) {
       return res.status(401).json({ message: "User is not authenticated" });
@@ -195,6 +196,7 @@ app.all('/api/reservations/last', async (req, res) => {
   const authHeader = req.headers['authorization'];
   console.log(`Received Authorization Header: ${authHeader}`);
 
+  console.log(req.headers['Authorization'])
   const sessionId = req.headers['Authorization'].split(" ")[1];
   if (!sessionId) {
     return res.status(401).send("User is not authenticated");
