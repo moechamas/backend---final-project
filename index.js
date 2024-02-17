@@ -46,11 +46,11 @@ const config = {
   authRequired: false,
   auth0Logout: true,
   secret: 'pJjxygBL99YThVmF2B2_Pm44vMshm-MVrxNeQJt2wqpQTCN-zNR8bP4fIQ3rjly6',
-  baseURL: 'http://localhost:3006',
+  baseURL: 'https://frontend-test1-yejf.onrender.com/',
   clientID: 'Qw2bXi87MBgGKJybw9nCAKOQ3TBDEe6z',
   issuerBaseURL: 'https://dev-5cctc0ue24r5lvxh.us.auth0.com',
   authorizationParams: {
-    redirect_uri: 'http://localhost:3005/',
+    redirect_uri: 'https://frontend-test1-yejf.onrender.com/',
   },
 };
 
