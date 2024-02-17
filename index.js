@@ -35,7 +35,9 @@ app.use((req, res, next) => {
 });
 
 
-app.use(cors())
+app.use(cors({
+  origin: "https://frontend-test1-yejf.onrender.com"
+}))
 
 app.use(cookieParser());
 
