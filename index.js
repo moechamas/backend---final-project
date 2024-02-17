@@ -4,7 +4,7 @@ const express = require('express');
 const { auth, requiresAuth } = require('express-openid-connect');
 const stripe = require('stripe')(process.env.REACT_APP_STRIPE_SECRET_KEY);
 const cors = require('cors');
-const { events, pastEvents, reviews } = require('../data');
+const { events, pastEvents, reviews } = require('./data');
 const { connectDB } = require('./mongodbUtil');
 const { MongoClient } = require('mongodb');
 
