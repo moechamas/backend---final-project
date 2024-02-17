@@ -105,14 +105,15 @@ app.get('/api/events/:id', async (req, res) => {
 
 
 app.post('/api/reservations', async (req, res) => {
-  console.log(req.headers);
+  console.log(req.headers); 
 
   try {
-    console.log(req.headers['Authorization'])
-    const sessionId = req.headers['Authorization'].split(" ")[1];
-    if (!sessionId) {
-      return res.status(401).json({ message: "User is not authenticated" });
+    const authHeader = req.headers['authorization'] || ''; 
+    if (!authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ message: "Invalid or missing Authorization header. Expected format: Bearer <token>." });
     }
+
+    const sessionId = authHeader.split(" ")[1]; 
 
     const db = await connectDB();
     let allReservationsProcessed = true; 
