@@ -105,6 +105,8 @@ app.get('/api/events/:id', async (req, res) => {
 
 
 app.post('/api/reservations', async (req, res) => {
+  console.log(req.headers);
+
   try {
     console.log(req.headers['Authorization'])
     const sessionId = req.headers['Authorization'].split(" ")[1];
