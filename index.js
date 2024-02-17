@@ -195,8 +195,8 @@ app.delete('/api/reservations/:ticketId', async (req, res) => {
 
 
 
-app.all('/api/reservations/last', async (req, res) => {
-  const authHeader = req.headers['authorization'] || ''; 
+app.get('/api/reservations/last', async (req, res) => {
+  const authHeader = req.headers['authorization'] || '';
 
   console.log(`Received Authorization Header: ${authHeader}`);
 
@@ -204,28 +204,22 @@ app.all('/api/reservations/last', async (req, res) => {
     return res.status(401).json({ message: "Invalid or missing Authorization header. Expected format: Bearer <token>." });
   }
 
-  const sessionId = authHeader.split(" ")[1];
-
+  const sessionId = authHeader.substring(7); 
 
   try {
     const db = await connectDB();
     const lastReservation = await db.collection('reservations')
-      .find({ sessionId })
-      .sort({ _id: -1 })
-      .limit(1)
-      .toArray();
+      .findOne({ sessionId: sessionId }, { sort: { _id: -1 } });
 
-    console.log(`Query result for last reservation: ${JSON.stringify(lastReservation)}`);
-
-    if (lastReservation.length > 0) {
-      res.json(lastReservation[0]);
-    } else {
-      console.log("No reservations found for session ID:", sessionId);
-      res.status(404).send("No reservations found");
+    if (!lastReservation) {
+      console.log(`No reservations found for session ID: ${sessionId}`);
+      return res.status(404).json({ message: "No reservations found for the user." });
     }
+
+    res.json(lastReservation);
   } catch (error) {
-    console.error("Error fetching the last reservation with session ID:", sessionId, error);
-    res.status(500).send("Error fetching the last reservation");
+    console.error('Error fetching the last reservation:', error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
