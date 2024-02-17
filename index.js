@@ -196,14 +196,16 @@ app.delete('/api/reservations/:ticketId', async (req, res) => {
 
 
 app.all('/api/reservations/last', async (req, res) => {
-  const authHeader = req.headers['authorization'];
+  const authHeader = req.headers['authorization'] || ''; 
+
   console.log(`Received Authorization Header: ${authHeader}`);
 
-  console.log(req.headers['Authorization'])
-  const sessionId = req.headers['Authorization'].split(" ")[1];
-  if (!sessionId) {
-    return res.status(401).send("User is not authenticated");
+  if (!authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ message: "Invalid or missing Authorization header. Expected format: Bearer <token>." });
   }
+
+  const sessionId = authHeader.split(" ")[1];
+
 
   try {
     const db = await connectDB();
