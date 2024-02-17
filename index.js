@@ -30,9 +30,10 @@ app.use((req, res, next) => {
 
 
 app.use(cors({
-  origin: '*',
-  credentials: true, 
+  origin: "https://frontend-test1-yejf.onrender.com",
+  credentials: true 
 }));
+
 
 
 app.use(cookieParser());
