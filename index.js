@@ -35,10 +35,7 @@ app.use((req, res, next) => {
 });
 
 
-app.use(cors({
-  origin: 'http://localhost:3005', 
-  credentials: true,
-}));
+app.use(cors())
 
 app.use(cookieParser());
 
