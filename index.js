@@ -7,17 +7,11 @@ const cors = require('cors');
 const { events, pastEvents, reviews } = require('./data');
 const { connectDB } = require('./mongodbUtil');
 const { MongoClient } = require('mongodb');
-
-
-
 const app = express();
 const uri = process.env.MONGODB_URI; 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 const databaseName = "FinalProject";
 const { ObjectId } = require('mongodb');
-
-
-
 
 app.use(express.json());
 
@@ -36,11 +30,12 @@ app.use((req, res, next) => {
 
 
 app.use(cors({
-  origin: "https://frontend-test1-yejf.onrender.com"
-}))
+  origin: '*',
+  credentials: true, 
+}));
+
 
 app.use(cookieParser());
-
 
 
 // Auth0 Configuration
